@@ -39,3 +39,31 @@ export const sidebarLinks = [
     label: "User Management",
   },
 ];
+
+export const StaffTabsLinks = [
+  {
+    id: "invigilators",
+    label: "Invigilators",
+    icon: <InvigilatorsIcon />,
+  },
+  {
+    id: "security",
+    label: "Security",
+    icon: <SecurityIcon />,
+  },
+  {
+    id: "nurses",
+    label: "Nurses",
+    icon: <NursesIcon />,
+  },
+  {
+    id: "itSupport",
+    label: "IT Support",
+    icon: <ITSupportIcon />,
+  },
+  {
+    id: "administrative",
+    label: "Administrative",
+    icon: <AdministrativeIcon />,
+  },
+];

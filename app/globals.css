@@ -3,7 +3,8 @@
 @tailwind utilities;
 
 .main-container {
-  @apply flex min-h-full flex-1 flex-col bg-light-2 px-12  pt-12;
+  /* @apply flex min-h-full flex-1 flex-col bg-light-2 px-12  pt-12; */
+  @apply flex h-screen flex-1;
 }
 
 .leftsidebar {

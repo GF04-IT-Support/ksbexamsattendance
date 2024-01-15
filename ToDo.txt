@@ -1,0 +1,33 @@
+Logging In:
+
+Users access the attendance system by visiting the login page and entering their credentials to authenticate.
+Home Page and Calendar:
+
+Upon successful login, users are directed to the home page.
+On the right side of the home page, a calendar is displayed.
+The calendar automatically selects the default date, which helps filter the exam sessions displayed on the cards.
+Exam Session Cards:
+
+The home page shows exam session cards, each representing a specific exam.
+The cards display essential details such as the exam name, date, time, and venue.
+The cards are dynamically filtered based on the selected date on the calendar, showing only the relevant exam sessions.
+Attendance Indicator on Venue Cards:
+
+Next to each venue name on the cards, an indicator is shown.
+If all attendance hasn't been taken for the sessions in a particular venue, a red indicator is displayed.
+Once attendance has been taken for all sessions in that venue, the red indicator changes to green, indicating completion.
+Viewing Session Details:
+
+Users can click on a venue card to view the details of the sessions held at that venue.
+Staff Type Tabs and Attendance Count:
+
+Within the session details, staff type tabs are presented, representing different categories of staff members (e.g., invigilators, proctors).
+Each staff type tab displays the number of staff members whose attendance hasn't been taken yet.
+Marking Attendance:
+
+Users can navigate to the staff type tabs and begin marking attendance for each staff member.
+Attendance options (e.g., present, absent) are provided for each staff member, typically using radio buttons or checkboxes.
+As attendance is marked for each staff member, the count of pending attendance decreases in real-time.
+Error Handling:
+
+Proper error handling and validation mechanisms are in place to handle unexpected scenarios and display clear error messages.
