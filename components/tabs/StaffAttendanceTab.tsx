@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Tabs, Tab, Radio, RadioGroup, Card } from "@nextui-org/react";
+import { Tabs, Tab, Checkbox, Card } from "@nextui-org/react";
 import { StaffTabsLinks } from "@/lib/constants";
 import { Typography } from "@mui/material";
 import toast, { Toaster } from "react-hot-toast";
@@ -12,7 +12,7 @@ export default function StaffAttendanceTab({ data }: any) {
   const [attendance, setAttendance] = useState<any>(
     data.map((staff: any) => ({
       ...staff,
-      attendance_status: staff.attendance_status || "unmarked",
+      attendance_status: staff.attendance_status || null,
     }))
   );
 
@@ -20,9 +20,11 @@ export default function StaffAttendanceTab({ data }: any) {
     staffId: string,
     examSessionId: string,
     staffName: string,
-    status: string
+    checked: boolean
   ) => {
     try {
+      const status = checked ? "Present" : null;
+
       setAttendance((currentAttendance: any) =>
         currentAttendance.map((staff: any) => {
           if (staff.staff_id === staffId) {
@@ -69,7 +71,7 @@ export default function StaffAttendanceTab({ data }: any) {
             title={
               <div className="flex items-center space-x-2">
                 {item.icon}
-                <span>{item.label}</span>
+                <span className="max-sm:hidden">{item.label}</span>
               </div>
             }
           ></Tab>
@@ -83,28 +85,26 @@ export default function StaffAttendanceTab({ data }: any) {
           No Staff Assigned
         </Typography>
       ) : (
-        <Card className="mx-auto w-1/2 my-4 flex justify-center p-8">
+        <Card className="mx-auto  sm:w-1/2 w-full my-4 flex justify-center p-8">
           {filteredData.map((staff: any) => (
             <div
               key={staff.staff_id}
               className="flex items-center justify-between my-2 p-2"
             >
               <span className="flex-1">{staff.staff_name}</span>
-              <RadioGroup
-                value={staff.attendance_status}
-                onValueChange={(status: any) =>
+              <Checkbox
+                defaultSelected={staff.attendance_status === "Present"}
+                color="success"
+                onChange={(e) => {
+                  const checked = e.target.checked;
                   handleAttendanceChange(
                     staff.staff_id,
                     staff.exam_session_id,
                     staff.staff_name,
-                    status
-                  )
-                }
-                orientation="horizontal"
-              >
-                <Radio value="Present" color="success"></Radio>
-                <Radio value="Absent" color="danger"></Radio>
-              </RadioGroup>
+                    checked
+                  );
+                }}
+              ></Checkbox>
             </div>
           ))}
         </Card>

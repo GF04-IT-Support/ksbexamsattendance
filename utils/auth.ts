@@ -21,9 +21,8 @@ export const authOptions: any = {
         });
 
         if (
-          (existingUser &&
-            existingUser.role === "admin" &&
-            existingUser.subRole === "supreme") ||
+          (existingUser && existingUser.role === "admin") ||
+          // && existingUser.subRole === "supreme"
           existingUser?.role === "checker"
         ) {
           await prisma.user.update({

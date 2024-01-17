@@ -37,6 +37,7 @@ export async function getSessions({ date }: { date: Date }) {
         start_time: exam.start_time,
         end_time: exam.end_time,
         exam_code: exam.exam_code,
+        locked: exam.locked,
         venues,
       };
     });
@@ -81,6 +82,31 @@ export async function getAllStaffAssignmentsForSession(
   examId: string
 ) {
   try {
+    const examDetails = await prisma.exam.findUnique({
+      where: {
+        exam_id: examId,
+      },
+      select: {
+        date: true,
+        start_time: true,
+        end_time: true,
+        venue: true,
+      },
+    });
+
+    const venue = await prisma.venue.findUnique({
+      where: {
+        venue_id: venueId,
+      },
+      select: {
+        name: true,
+      },
+    });
+
+    if (!venue || !examDetails) return;
+
+    examDetails.venue = venue.name;
+
     const examSessions = await prisma.examSession.findMany({
       where: {
         exam_id: examId,
@@ -97,12 +123,12 @@ export async function getAllStaffAssignmentsForSession(
       },
     });
 
-    const examDetails = {
-      date: examSessions[0].exam.date,
-      start_time: examSessions[0].exam.start_time,
-      end_time: examSessions[0].exam.end_time,
-      venue: examSessions[0].venue.name,
-    };
+    if (!examSessions.length) {
+      return {
+        staffAssignmentsWithAttendance: [],
+        examDetails,
+      };
+    }
 
     const staffAssignmentsWithAttendance = [];
 
@@ -138,7 +164,7 @@ export async function getAllStaffAssignmentsForSession(
 export async function takeAttendance(
   staff_id: string,
   exam_session_id: string,
-  attendance_status: string
+  attendance_status: string | null
 ) {
   try {
     const existingAttendance = await prisma.attendance.findUnique({

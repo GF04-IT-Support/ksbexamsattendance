@@ -15,6 +15,7 @@ import {
 } from "@nextui-org/react";
 import { Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function SessionCard() {
   const { selectedDate } = useDateStore();
@@ -27,9 +28,21 @@ export default function SessionCard() {
     }
   );
 
+  const handleAttendanceCheck = (
+    locked: boolean,
+    examId: string,
+    venueId: string
+  ) => {
+    if (locked) {
+      toast.error("Session is locked, contact Administrator");
+      return;
+    }
+    router.push(`/attendance-check?venue_id=${venueId}&exam_id=${examId}`, {});
+  };
+
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center">
+      <div className="flex flex-1 flex-grow w-full justify-center items-center">
         <Spinner />
       </div>
     );
@@ -45,6 +58,7 @@ export default function SessionCard() {
 
   return (
     <div className="grid grid-cols-1 gap-4 mb-4">
+      <Toaster position="top-center" />
       {sessions.map((session: any) => (
         <Card
           key={session.exam_id}
@@ -81,12 +95,13 @@ export default function SessionCard() {
                     placement="bottom-right"
                   >
                     <Button
-                      className="rounded-full transition-all duration-300 ease-in-out hover:scale-110"
+                      className="mt-2 rounded-full transition-all duration-300 ease-in-out hover:scale-110"
                       size="sm"
                       onClick={() =>
-                        router.push(
-                          `/attendance-check?venue_id=${venue.venue_id}&exam_id=${session.exam_id}`,
-                          {}
+                        handleAttendanceCheck(
+                          session.locked,
+                          session.exam_id,
+                          venue.venue_id
                         )
                       }
                     >
