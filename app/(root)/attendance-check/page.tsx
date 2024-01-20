@@ -34,14 +34,14 @@ export default async function AttendanceCheck({
 
         <Typography
           variant="h5"
-          className="max-[540px]:text-lg max-[417px]:text-base"
+          className="max-[540px]:text-lg max-[417px]:text-base text-center"
         >
           {examDetails?.start_time} - {examDetails?.end_time} at
         </Typography>
 
         <Typography
           variant="h5"
-          className="max-[540px]:text-lg max-[417px]:text-base"
+          className="max-[540px]:text-lg max-[417px]:text-base text-center"
         >
           {examDetails?.venue}
         </Typography>

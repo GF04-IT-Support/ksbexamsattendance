@@ -23,12 +23,9 @@ export default function RootLayout({
         <body className={inter.className}>
           <Providers>
             <Header />
-            <main className="flex flex-row">
-              {/* <Sidebar /> */}
-              <section className="main-container">
-                <div className="w-full">{children}</div>
-              </section>
-            </main>
+            <section className="main-container">
+              <div className="w-full">{children}</div>
+            </section>
           </Providers>
         </body>
       </html>
