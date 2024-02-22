@@ -23,7 +23,8 @@ export async function getSessions({ date }: { date: Date }) {
     }, {});
 
     const examsWithVenues = exams.map((exam) => {
-      const venueNames = exam.venue.split(",").map((name) => name.trim());
+      const venueNames =
+        exam.venue?.split(",").map((name) => name.trim()) || [];
 
       const venues = venueNames.map((name) => ({
         name,
@@ -42,35 +43,39 @@ export async function getSessions({ date }: { date: Date }) {
       };
     });
 
-    for (const exam of examsWithVenues) {
-      for (const venue of exam.venues) {
-        const session = await prisma.examSession.findFirst({
-          where: {
-            exam_id: exam.exam_id,
-            venue_id: venue.venue_id,
-          },
-          include: {
-            assignments: true,
-            attendances: true,
-          },
-        });
+    try {
+      for (const exam of examsWithVenues) {
+        for (const venue of exam.venues) {
+          const session = await prisma.examSession.findFirst({
+            where: {
+              exam_id: exam.exam_id,
+              venue_id: venue.venue_id,
+            },
+            include: {
+              assignments: true,
+              attendances: true,
+            },
+          });
 
-        if (session) {
-          const isAttendanceComplete = session.assignments.every((assignment) =>
-            session.attendances.some(
-              (attendance) => attendance.staff_id === assignment.staff_id
-            )
-          );
+          if (session) {
+            const isAttendanceComplete = session.assignments.every(
+              (assignment) =>
+                session.attendances.some(
+                  (attendance) => attendance.staff_id === assignment.staff_id
+                )
+            );
 
-          venue.isAttendanceCompleteForVenue =
-            isAttendanceComplete as unknown as null;
+            venue.isAttendanceCompleteForVenue =
+              isAttendanceComplete as unknown as null;
+          }
         }
       }
+    } catch (error) {
+      console.error(error);
     }
 
     return examsWithVenues;
   } catch (error: any) {
-    console.error(error);
     return {
       message: "Problems in fetching sessions with venues and attendance",
     };
