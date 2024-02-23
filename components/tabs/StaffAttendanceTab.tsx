@@ -78,12 +78,9 @@ export default function StaffAttendanceTab({ data }: any) {
         )}
       </Tabs>
       {filteredData.length === 0 ? (
-        <Typography
-          variant="h4"
-          className=" flex items-center justify-center mt-20"
-        >
-          No Staff Assigned
-        </Typography>
+        <div className=" flex flex-1 items-center justify-center mt-20">
+          <Typography variant="h4">No Staff Assigned</Typography>
+        </div>
       ) : (
         <Card className="mx-auto  sm:w-1/2 w-full my-4 flex justify-center p-8">
           {filteredData.map((staff: any) => (

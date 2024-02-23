@@ -1,6 +1,8 @@
 "use server";
 
 import prisma from "@/utils/prisma";
+import { sortDataByStartTime } from "../helpers/date.helpers";
+import { revalidatePath } from "next/cache";
 
 export async function getSessions({ date }: { date: Date }) {
   try {
@@ -53,7 +55,13 @@ export async function getSessions({ date }: { date: Date }) {
             },
             include: {
               assignments: true,
-              attendances: true,
+              attendances: {
+                where: {
+                  attendance_status: {
+                    not: null,
+                  },
+                },
+              },
             },
           });
 
@@ -73,8 +81,8 @@ export async function getSessions({ date }: { date: Date }) {
     } catch (error) {
       console.error(error);
     }
-
-    return examsWithVenues;
+    const sortedExamsWithVenues = sortDataByStartTime(examsWithVenues);
+    return sortedExamsWithVenues;
   } catch (error: any) {
     return {
       message: "Problems in fetching sessions with venues and attendance",
@@ -203,7 +211,7 @@ export async function takeAttendance(
         },
       });
     }
-
+    revalidatePath(`/attendance-check`);
     return { message: "Attendance taken successfully" };
   } catch (error: any) {
     return { message: "Error in taking attendance" };
