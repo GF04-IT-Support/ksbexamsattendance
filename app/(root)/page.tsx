@@ -4,11 +4,17 @@ import SessionCalendar from "@/components/calendars/SessionCalendar";
 import SessionCard from "@/components/cards/SessionCard";
 import { Divider, Drawer } from "@mui/material";
 import CalendarIcon from "@mui/icons-material/CalendarToday";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IoIosCloseCircle } from "react-icons/io";
+import { useDateStore } from "@/zustand";
 
 export default function Home() {
   const [isDrawerOpen, setDrawerOpen] = useState(false);
+  const { selectedDate } = useDateStore();
+
+  useEffect(() => {
+    setDrawerOpen(false);
+  }, [selectedDate]);
 
   const handleDrawerOpen = () => {
     setDrawerOpen(true);
