@@ -29,14 +29,14 @@ export default async function AttendanceCheck({
           variant="h5"
           className="max-[540px]:text-lg max-[417px]:text-base"
         >
-          {new Date(examDetails?.date).toLocaleDateString()},
+          {new Date(examDetails?.date).toLocaleDateString("en-GB")},
         </Typography>
 
         <Typography
           variant="h5"
           className="max-[540px]:text-lg max-[417px]:text-base text-center"
         >
-          {examDetails?.start_time} - {examDetails?.end_time} at
+          {examDetails?.start_time} - {examDetails?.end_time},
         </Typography>
 
         <Typography
