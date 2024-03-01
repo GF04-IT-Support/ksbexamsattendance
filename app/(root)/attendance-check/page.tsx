@@ -25,26 +25,17 @@ export default async function AttendanceCheck({
       </Link>
 
       <div className="flex flex-row gap-2 py-4 mt-4 justify-center">
-        <Typography
-          variant="h5"
-          className="max-[540px]:text-lg max-[417px]:text-base"
-        >
+        <p className="max-[540px]:text-lg text-2xl max-[417px]:text-base">
           {new Date(examDetails?.date).toLocaleDateString("en-GB")},
-        </Typography>
+        </p>
 
-        <Typography
-          variant="h5"
-          className="max-[540px]:text-lg max-[417px]:text-base text-center"
-        >
+        <p className="max-[540px]:text-lg text-2xl max-[417px]:text-base text-center">
           {examDetails?.start_time} - {examDetails?.end_time},
-        </Typography>
+        </p>
 
-        <Typography
-          variant="h5"
-          className="max-[540px]:text-lg max-[417px]:text-base text-center"
-        >
+        <p className="max-[540px]:text-lg text-2xl max-[417px]:text-base text-center">
           {examDetails?.venue}
-        </Typography>
+        </p>
       </div>
 
       <StaffAttendanceTab data={staffAssignmentsWithAttendance} />
