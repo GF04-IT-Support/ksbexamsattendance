@@ -1,13 +1,15 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Tabs, Tab, Checkbox, Card } from "@nextui-org/react";
 import { StaffTabsLinks } from "@/lib/constants";
 import { Typography } from "@mui/material";
 import toast, { Toaster } from "react-hot-toast";
 import { takeAttendance } from "@/lib/actions/session.action";
+import { useAttendanceDetails } from "@/zustand";
 
 export default function StaffAttendanceTab({ data }: any) {
+  const { staffAssignment, setStaffAssignment } = useAttendanceDetails();
   const [selectedTab, setSelectedTab] = useState<any>(StaffTabsLinks[0].id);
   const [attendance, setAttendance] = useState<any>(
     data.map((staff: any) => ({
@@ -15,6 +17,19 @@ export default function StaffAttendanceTab({ data }: any) {
       attendance_status: staff.attendance_status || null,
     }))
   );
+
+  useEffect(() => {
+    setStaffAssignment(data);
+  }, [data]);
+
+  useEffect(() => {
+    setAttendance(
+      staffAssignment.map((staff: any) => ({
+        ...staff,
+        attendance_status: staff.attendance_status || null,
+      }))
+    );
+  }, [staffAssignment]);
 
   const handleAttendanceChange = async (
     staffId: string,
@@ -90,7 +105,7 @@ export default function StaffAttendanceTab({ data }: any) {
             >
               <span className="flex-1">{staff.staff_name}</span>
               <Checkbox
-                defaultSelected={staff.attendance_status === "Present"}
+                isSelected={staff.attendance_status === "Present"}
                 color="success"
                 onChange={(e) => {
                   const checked = e.target.checked;

@@ -1,9 +1,10 @@
+import AttendanceHeader from "@/components/shared/AttendanceHeader";
 import StaffAttendanceTab from "@/components/tabs/StaffAttendanceTab";
 import { getAllStaffAssignmentsForSession } from "@/lib/actions/session.action";
-import { Typography } from "@mui/material";
-import Link from "next/link";
+import { useAttendanceDetails } from "@/zustand";
+import { Divider } from "@nextui-org/react";
 import React from "react";
-import { FaArrowLeft } from "react-icons/fa";
+import { Toaster } from "react-hot-toast";
 
 export default async function AttendanceCheck({
   searchParams,
@@ -19,24 +20,39 @@ export default async function AttendanceCheck({
     await getAllStaffAssignmentsForSession(venueId, examId);
 
   return (
-    <div className="relative pt-4 px-4">
-      <Link href="/" className="absolute top-50 left-4">
-        <FaArrowLeft size={24} className="hover:opacity-50" />
-      </Link>
+    <div className="relative pt-4 max-sm:px-4">
+      <Toaster position="top-center" />
+      <AttendanceHeader examId={examId} venueId={venueId} />
 
-      <div className="flex flex-row gap-2 py-4 mt-4 justify-center">
-        <p className="max-[540px]:text-lg text-2xl max-[417px]:text-base">
-          {new Date(examDetails?.date).toLocaleDateString("en-GB")},
-        </p>
+      <div className="flex flex-row flex-wrap gap-2 py-4 items-center justify-between">
+        <div className="flex flex-col">
+          <span className="text-xs text-gray-500">Date</span>{" "}
+          <p className="max-[540px]:text-lg text-xl max-[417px]:text-base">
+            {new Intl.DateTimeFormat("en-US", {
+              weekday: "short",
+              year: "numeric",
+              month: "short",
+              day: "numeric",
+            }).format(new Date(examDetails?.date))}
+          </p>
+        </div>
 
-        <p className="max-[540px]:text-lg text-2xl max-[417px]:text-base text-center">
-          {examDetails?.start_time} - {examDetails?.end_time},
-        </p>
+        <div className="flex flex-col">
+          <span className="text-xs text-gray-500">Time</span>{" "}
+          <p className="max-[540px]:text-lg text-xl max-[417px]:text-base text-center">
+            {examDetails?.start_time} - {examDetails?.end_time}
+          </p>
+        </div>
 
-        <p className="max-[540px]:text-lg text-2xl max-[417px]:text-base text-center">
-          {examDetails?.venue}
-        </p>
+        <div className="flex flex-col">
+          <span className="text-xs text-gray-500">Block</span>{" "}
+          <p className="max-[540px]:text-lg text-xl max-[417px]:text-base text-center">
+            {examDetails?.venue.replace("PG", "")}
+          </p>
+        </div>
       </div>
+
+      <Divider className="my-4 mb-6" />
 
       <StaffAttendanceTab data={staffAssignmentsWithAttendance} />
     </div>
