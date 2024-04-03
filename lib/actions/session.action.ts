@@ -180,6 +180,19 @@ export async function takeAttendance(
   attendance_status: string | null
 ) {
   try {
+    const isLocked = await prisma.examSession.findFirst({
+      where: {
+        exam_session_id: exam_session_id,
+        exam: {
+          locked: true,
+        },
+      },
+    });
+
+    if (isLocked) {
+      return { message: "Session is locked, contact Administrator" };
+    }
+
     const existingAttendance = await prisma.attendance.findUnique({
       where: {
         staff_id_exam_session_id: {
@@ -215,5 +228,14 @@ export async function takeAttendance(
     return { message: "Attendance taken successfully" };
   } catch (error: any) {
     return { message: "Error in taking attendance" };
+  }
+}
+
+export async function checkIfUserIsBlocked(id: string) {
+  try {
+    const user = await prisma.user.findFirst({ where: { id } });
+    return user?.blocked;
+  } catch (error: any) {
+    return { message: "An error occurred while checking if user is blocked." };
   }
 }

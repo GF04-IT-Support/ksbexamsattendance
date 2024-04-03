@@ -7,6 +7,7 @@ import { Typography } from "@mui/material";
 import toast, { Toaster } from "react-hot-toast";
 import { takeAttendance } from "@/lib/actions/session.action";
 import { useAttendanceDetails } from "@/zustand";
+import { useRouter } from "next/navigation";
 
 export default function StaffAttendanceTab({ data }: any) {
   const { staffAssignment, setStaffAssignment } = useAttendanceDetails();
@@ -17,6 +18,7 @@ export default function StaffAttendanceTab({ data }: any) {
       attendance_status: staff.attendance_status || null,
     }))
   );
+  const router = useRouter();
 
   useEffect(() => {
     setStaffAssignment(data);
@@ -58,10 +60,11 @@ export default function StaffAttendanceTab({ data }: any) {
           );
         }
       } else {
-        toast.error(`Failed to take Attendance for ${staffName}.`);
+        toast.error(response.message);
+        router.replace("/");
       }
     } catch (error) {
-      toast.error(`Failed to take attendance for ${staffName}.`);
+      toast.error("Failed to take attendance. Please try again later.");
     }
   };
 
