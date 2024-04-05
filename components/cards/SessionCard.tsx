@@ -68,6 +68,7 @@ export default function SessionCard() {
           <Card
             key={session.exam_id}
             className="p-4 bg-white shadow-lg rounded-lg"
+            isDisabled={session.locked}
           >
             <CardHeader className="flex justify-between items-center">
               <p className="font-bold">{session.exam_code}</p>
@@ -111,6 +112,7 @@ export default function SessionCard() {
                             venue.venue_id
                           )
                         }
+                        isDisabled={session.locked}
                       >
                         {venue.name}
                       </Button>
