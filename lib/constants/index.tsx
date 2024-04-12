@@ -11,34 +11,7 @@ import SecurityIcon from "@mui/icons-material/Security";
 import NursesIcon from "@mui/icons-material/LocalHospital";
 import ITSupportIcon from "@mui/icons-material/Computer";
 import AdministrativeIcon from "@mui/icons-material/Business";
-
-export const sidebarLinks = [
-  {
-    icon: <FaHome />,
-    route: "/",
-    label: "Dashboard",
-  },
-  {
-    icon: <FaCalendarAlt />,
-    route: "/exam-schedule",
-    label: "Exam Schedule",
-  },
-  {
-    icon: <FaUsers />,
-    route: "/staff-management",
-    label: "Staff Management",
-  },
-  {
-    icon: <FaClipboardList />,
-    route: "/attendance-tracking",
-    label: "Attendance Tracking",
-  },
-  {
-    icon: <FaUserCog />,
-    route: "/user-management",
-    label: "User Management",
-  },
-];
+import AttachMoney from "@mui/icons-material/AttachMoney";
 
 export const StaffTabsLinks = [
   {
@@ -65,5 +38,10 @@ export const StaffTabsLinks = [
     id: "administrative",
     label: "Administrative",
     icon: <AdministrativeIcon />,
+  },
+  {
+    id: "feeCollectors",
+    label: "Fee Collectors",
+    icon: <AttachMoney />,
   },
 ];
