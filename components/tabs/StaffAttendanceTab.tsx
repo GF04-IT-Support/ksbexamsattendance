@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Tabs, Tab, Checkbox, Card } from "@nextui-org/react";
+import { Tabs, Tab, Checkbox, Card, Chip } from "@nextui-org/react";
 import { StaffTabsLinks } from "@/lib/constants";
 import { Typography } from "@mui/material";
 import toast, { Toaster } from "react-hot-toast";
@@ -72,6 +72,18 @@ export default function StaffAttendanceTab({ data }: any) {
     (staff: any) => staff.role === selectedTab
   );
 
+  const total = StaffTabsLinks.map((tab) => {
+    const filtered = filteredData.filter(
+      (staff: any) =>
+        staff.attendance_status !== "Present" && staff.role === tab.id
+    );
+    return {
+      id: tab.id,
+      label: tab.label,
+      total: filtered.length,
+    };
+  });
+
   return (
     <div className="flex w-full flex-col">
       <Toaster position="top-center" />
@@ -90,6 +102,12 @@ export default function StaffAttendanceTab({ data }: any) {
               <div className="flex items-center space-x-2">
                 {item.icon}
                 <span className="max-sm:hidden">{item.label}</span>
+                {total.length > 0 &&
+                  total.find((tab) => tab.id === item.id)?.total > 0 && (
+                    <Chip color="danger">
+                      {`${total.find((tab) => tab.id === item.id)?.total}`}
+                    </Chip>
+                  )}
               </div>
             }
           ></Tab>

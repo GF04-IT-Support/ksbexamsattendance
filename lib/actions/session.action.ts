@@ -168,6 +168,10 @@ export async function getAllStaffAssignmentsForSession(
       }
     }
 
+    staffAssignmentsWithAttendance.sort((a, b) => {
+      return a.staff_name.localeCompare(b.staff_name);
+    });
+
     return { staffAssignmentsWithAttendance, examDetails };
   } catch (error: any) {
     throw new Error("Problems in fetching staff assignments with attendance");
