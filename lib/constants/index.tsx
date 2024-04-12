@@ -1,11 +1,3 @@
-import {
-  FaHome,
-  FaCalendarAlt,
-  FaUsers,
-  FaClipboardList,
-  FaCog,
-  FaUserCog,
-} from "react-icons/fa";
 import InvigilatorsIcon from "@mui/icons-material/People";
 import SecurityIcon from "@mui/icons-material/Security";
 import NursesIcon from "@mui/icons-material/LocalHospital";
